@@ -1,16 +1,39 @@
 <html>
 <body>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/two.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
+var two = new Two({
+      fullscreen: true,
+      autostart: true
+	}).appendTo(document.body);
+	var w = two.width;
+	var h = two.height;
+	var SIZE = 400;
+	var basex = w/2 - SIZE/2;
+	var basey = h/2 - SIZE/2;
   var socket = io.connect('http://localhost/battle_freq');
+  var me = null;
   socket.on('welcome', function (data) {
+  	if (me == null)
+  		me = two.makeCircle(basex + data.x*(SIZE/10), basey + data.y*(SIZE/10), 19);
     console.log(data);
   });
   var move = function(x, y) {
   	socket.emit('move', {'x': x, 'y': y}, function (msg) {
   		console.log(msg);
+  		me.remove();
+  		me = two.makeCircle(basex + msg.x*(SIZE/10), basey + msg.y*(SIZE/10), 19);
   	});
   }
+	// Drawing
+
+
+	for (var i = 0; i <= 10; i ++)
+		two.makeLine(w/2 - SIZE/2, h/2 - SIZE/2 + (i * SIZE/10), w/2 + SIZE/2, h/2 - SIZE/2 + (i * SIZE/10));
+	for (var i = 0; i <= 10; i ++)
+		two.makeLine(w/2 - SIZE/2 + (i * SIZE/10), h/2 - SIZE/2, w/2 - SIZE/2 + (i * SIZE/10), h/2 + SIZE/2);
 </script>
 </body>
 </html>

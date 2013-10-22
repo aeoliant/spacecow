@@ -6,11 +6,14 @@ var app = require('http').createServer(handler)
 app.listen(80);
 
 function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
+  var path = "/index.html"
+  if (req.url != "/")
+    path = req.url;
+  fs.readFile(__dirname + path,
   function (err, data) {
     if (err) {
       res.writeHead(500);
-      return res.end('Error loading index.html');
+      return res.end('Error loading ' + path);
     }
 
     res.writeHead(200);
@@ -27,16 +30,16 @@ var x = midpoint.x;
 var y = midpoint.y;
 
 var battle_freq = io.of("/battle_freq").on('connection', function (socket) {
-  socket.emit('welcome', { msg: 'enter star fox' });
+  socket.emit('welcome', { msg: 'enter star fox', 'x':x, 'y':y });
   socket.on('move', function (data, callback) {
     console.log(data);
     if (m.inBounds(x + data.x, y + data.y)) {
       x += data.x;
       y += data.y;
-      callback("You are now at (" + x + ", " + y + ").");
+      callback({ msg: "You are now at (" + x + ", " + y + ").", 'x':x, 'y':y });
     }
     else {
-      callback("Move failed. You are still at (" + x + ", " + y + ").");
+      callback({ msg: "Move failed. You are still at (" + x + ", " + y + ").", 'x':x, 'y':y });
     }
   });
 });

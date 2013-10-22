@@ -1,0 +1,16 @@
+<html>
+<body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost/battle_freq');
+  socket.on('welcome', function (data) {
+    console.log(data);
+  });
+  var move = function(x, y) {
+  	socket.emit('move', {'x': x, 'y': y}, function (msg) {
+  		console.log(msg);
+  	});
+  }
+</script>
+</body>
+</html>

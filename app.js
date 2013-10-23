@@ -15,16 +15,12 @@ function handler (req, res) {
       res.writeHead(500);
       return res.end('Error loading ' + path);
     }
-
     res.writeHead(200);
     res.end(data);
   });
 }
 
-
-;
-
-var m = new Map(10, 10);
+var m = new Map(11, 11);
 var midpoint = m.middle();
 var x = midpoint.x;
 var y = midpoint.y;

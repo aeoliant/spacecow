@@ -2,6 +2,8 @@ var app = require('http').createServer(handler)
   , io = require('socket.io').listen(app)
   , fs = require('fs')
   , Map = require('./Map').Map
+  , Log = require('./Log').Log
+  , ClientStore = require('./ClientStore').ClientStore
 
 app.listen(80);
 
@@ -24,9 +26,12 @@ var m = new Map(11, 11);
 var midpoint = m.middle();
 var x = midpoint.x;
 var y = midpoint.y;
+var log = new Log("Spacecow");
+var cs = new ClientStore();
 
 var battle_freq = io.of("/battle_freq").on('connection', function (socket) {
-  socket.emit('welcome', { msg: 'enter star fox', 'x':x, 'y':y });
+  log.info("Connection!");
+  socket.emit('welcome', { msg: 'enter star fox', 'x':x, 'y':y, 'client':cs.getNext() });
   socket.on('move', function (data, callback) {
     console.log(data);
     if (m.inBounds(x + data.x, y + data.y)) {

@@ -19,3 +19,5 @@ class Log
 
   log: (msg, level, colour) ->
     console.log("#{colour + level} || #{@app} || #{new Date} || #{msg + Log.reset}")
+
+exports.Log = Log

@@ -8,5 +8,3 @@ function deleteJs {
 
 # find all coffee files, strip .coffee, delete .js
 find . -name "*.coffee" | while read file; do deleteJs "$file"; done
-
-exit 0

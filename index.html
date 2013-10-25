@@ -2,6 +2,7 @@
 <body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/two.min.js"></script>
+<script src="/mousetrap.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
 var two = new Two({
@@ -32,6 +33,22 @@ var two = new Two({
 		two.makeLine(w/2 - SIZE/2, h/2 - SIZE/2 + (i * SIZE/10), w/2 + SIZE/2, h/2 - SIZE/2 + (i * SIZE/10));
 	for (var i = 0; i <= 10; i ++)
 		two.makeLine(w/2 - SIZE/2 + (i * SIZE/10), h/2 - SIZE/2, w/2 - SIZE/2 + (i * SIZE/10), h/2 + SIZE/2);
+	Mousetrap.bind('up', function(e) {
+    move(0, -1)
+    return false;
+	});
+	Mousetrap.bind('down', function(e) {
+    move(0, 1)
+    return false;
+	});
+	Mousetrap.bind('left', function(e) {
+    move(-1, 0)
+    return false;
+	});
+	Mousetrap.bind('right', function(e) {
+    move(1, 0)
+    return false;
+	});
 </script>
 </body>
 </html>

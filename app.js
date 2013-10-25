@@ -31,7 +31,8 @@ var cs = new ClientStore();
 
 var battle_freq = io.of("/battle_freq").on('connection', function (socket) {
   log.info("Connection!");
-  socket.emit('welcome', { msg: 'enter star fox', 'x':x, 'y':y, 'client':cs.getNext() });
+  var client = cs.getNext();
+  socket.emit('welcome', { msg: 'enter star fox', 'x':x, 'y':y, 'goldenTicket':client.goldenTicket, 'id':client.id });
   socket.on('move', function (data, callback) {
     console.log(data);
     if (m.inBounds(x + data.x, y + data.y)) {
